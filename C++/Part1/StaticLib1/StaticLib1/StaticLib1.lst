@@ -1,0 +1,78 @@
+Microsoft (R) Macro Assembler Version 14.29.30140.0	    03/21/22 21:46:24
+Source_ASM.asm						     Page 1 - 1
+
+
+				Title Сложение двух чисел ; Заголовок программы
+				.686 ; Тип микропроцессора
+				.MODEL FLAT, C ; Модель памяти - Win32 (начиная с i386) и язык программирования
+				.STACK 256 ; Сегмент стека и его размер
+ 00000000			.DATA ; Сегмент данных
+				; -----------Local data------------------------------
+				; a_asm dw 2 ; Описание локальной переменной типа Define Word 16 бит (2 байта)
+				; b_asm sw 4 ; Начальное значение локальной переменной - 4 тип одинарное слово
+ 00000000			.CODE ; Сегмент кода программы
+				;-----------External usage-------------------------
+				; Возвращаемое значение процедуры во внешнее приложение
+				EXTRN a_asm : WORD
+				EXTRN b_asm : BYTE ; для значения сдвига достаточно байта
+				EXTRN c_asm : WORD
+				;-----------Function definitions-------------------
+				; Описание экспортируемой функции
+				PUBLIC C Proc_Sh ;
+ 00000000			Proc_Sh PROC far ; Заголовок экспортируемой функции
+				; far - возможность обращения к процедуре из другого участка кода проекта
+
+ 00000000  66| A1		mov ax, a_asm ; Помещаем значение переменной a_asm в регистр ax
+	   00000000 E
+ 00000006  8A 0D 00000000 E	mov cl, b_asm ; Помещаем значение переменной b_asm в регистр cl
+
+ 0000000C  66| D3 E0		sal ax, cl ; арифметический сдвиг ax влево на cl бит
+ 0000000F  66| A3		mov c_asm, ax ; Содержимое регистра ax перемещаем во внешнюю переменную c_asm
+	   00000000 E
+
+				; Оператор Return from procedure обеспечивает возврат управления вызывающей программе
+ 00000015  C3			retn
+ 00000016			Proc_Sh ENDP
+				END
+Microsoft (R) Macro Assembler Version 14.29.30140.0	    03/21/22 21:46:24
+Source_ASM.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00000100 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000000 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000016 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+Proc_Sh  . . . . . . . . . . . .	P Far	 00000000 _TEXT	Length= 00000016 Public C
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000001h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+a_asm  . . . . . . . . . . . . .	Word	 00000000 FLAT	External C
+b_asm  . . . . . . . . . . . . .	Byte	 00000000 FLAT	External C
+c_asm  . . . . . . . . . . . . .	Word	 00000000 FLAT	External C
+
+	   0 Warnings
+	   0 Errors
